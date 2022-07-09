@@ -14,14 +14,17 @@ class Bloc(Frame):
         super().__init__(master)
         self.master.title("Bloc de Notas")
         self.master.geometry("480x380")
+        self.master.protocol("WM_DELETE_WINDOW", self.salir)
         self.n = 12
         self.f = "Arial"
-   
+        
+        ttk.Button(self.master, text ="Abrir Fichero", command = self.crear_archivo).place(relx=0.90, rely=0.04)
         ttk.Button(self.master, text ="Crear Fichero", command = self.crear_archivo).place(relx=0.90, rely=0.04)
         ttk.Button(self.master, text ="Guardar Cambios", command = self.guardar_archivo).place(relx=0.90, rely=0.08)
         ttk.Button(self.master, text ="Cambiar Fondo", command = self.color_fondo ).place(relx=0.90, rely=0.12)
         ttk.Button(self.master, text ="Cambiar Fuente", command = self.fuente).place(relx=0.90, rely=0.16)
         ttk.Button(self.master, text ="Cambiar Color", command = self.color_texto).place(relx=0.90, rely=0.20)
+        ttk.Button(self.master, text="Nueva Ventana", command = self.nueva_ventana).place(relx=0.90, rely=0.24)
         
         self.texto = Text(self.master, font = ("Arial", 12), undo = True, insertbackground = "red")
         self.texto.grid(column = 0, row = 1, sticky ="nsew")
@@ -31,7 +34,7 @@ class Bloc(Frame):
 
     
     def guardar_archivo(self):
-        filename = filedialog.askopenfilename(defaultextension = ".txt")
+        filename = filedialog.asksaveasfilename(defaultextension = ".txt")
         archivo = open(filename, "w")
         archivo.write(self.texto.get("1.0","end"))
         archivo.close()
